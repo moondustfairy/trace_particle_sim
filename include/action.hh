@@ -2,6 +2,7 @@
 #define ACTION_HH
 
 #include "G4VUserActionInitialization.hh"
+#include "G4VUserPrimaryGeneratorAction.hh"
 
 #include "generator.hh"
 
@@ -11,6 +12,7 @@ public:
 	MyActionInitialization();
 	~MyActionInitialization();
 
+	virtual void BuildForMaster() const;
 	virtual void Build() const;
 };
 
