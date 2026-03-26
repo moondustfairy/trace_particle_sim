@@ -1,8 +1,11 @@
-#ifndef CONSTRUCION_HH
+#ifndef CONSTRUCTION_HH
 #define CONSTRUCTION_HH
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VisAttributes.hh"
+#include "G4TransportationManager.hh"
+#include "G4FieldManager.hh"
+#include "G4UniformMagField.hh"
 #include "G4Color.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4Material.hh"
@@ -19,9 +22,14 @@ class MyDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
 	MyDetectorConstruction();
-	~MyDetectorConstruction();
 
-	virtual G4VPhysicalVolume *Construct();
+	~MyDetectorConstruction() override;
+
+	G4VPhysicalVolume *Construct() override;
+	void ConstructSDandField() override;
+
+private:
+	G4LogicalVolume *fLogicDetectorTube = nullptr;
 };
 
 #endif

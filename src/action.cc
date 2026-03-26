@@ -1,6 +1,7 @@
 #include "../include/action.hh"
+
+#include "event_action.hh"
 #include "run_action.hh"
-#include "tracking_action.hh"
 
 MyActionInitialization::MyActionInitialization() : G4VUserActionInitialization()
 {}
@@ -14,7 +15,7 @@ void MyActionInitialization::BuildForMaster() const {
 
 void MyActionInitialization::Build() const
 {
-	SetUserAction(new RunAction());
 	SetUserAction(new MyPrimaryGenerator);
-	SetUserAction(new TrackingAction());
+	SetUserAction(new RunAction());
+	SetUserAction(new EventAction());
 }

@@ -3,22 +3,28 @@
 //
 
 #include "run_action.hh"
-#include "histo_manager.hh"
 
-RunAction::RunAction() : G4UserRunAction(), fHistoManager(0)
-{
-    fHistoManager = new HistoManager();
+#include "G4RunManager.hh"
+
+RunAction::RunAction() : G4UserRunAction() {
+    G4RunManager::GetRunManager()->SetPrintProgress(1);
+
+    // create analysis manager
+    auto analysisManager = G4AnalysisManager::Instance();
+    G4cout << "Using " << analysisManager->GetType() << G4endl;
+
+    analysisManager->SetVerboseLevel(1);
 }
 
-RunAction::~RunAction()
-{
-    delete fHistoManager;
+RunAction::~RunAction() {
+    delete G4AnalysisManager::Instance();
 }
 
 void RunAction::BeginRunAction(const G4Run *) {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     if (analysisManager->IsActive()) {
-        analysisManager->OpenFile();
+        G4String fileName = "data";
+        analysisManager->OpenFile(fileName);
     }
 }
 

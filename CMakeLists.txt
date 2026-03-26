@@ -20,17 +20,19 @@ add_executable(sim sim.cc ${sources} ${headers}
         src/construction.cc
         src/run_action.cc
         include/run_action.hh
-        src/histo_manager.cc
-        include/histo_manager.hh
-        src/tracking_action.cc
-        include/tracking_action.hh)
+        src/detector_SD.cc
+        include/detector_SD.hh
+        src/detector_hits.cc
+        include/detector_hits.hh
+        src/event_action.cc
+        include/event_action.hh)
 
 target_link_libraries(sim ${Geant4_LIBRARIES})
 
 set(TRACE_PARTICLE_SIM_SCRIPTS
         init_vis.mac
         vis.mac
-        gps_proton_iso.mac)
+        gps_gcr_particles.mac)
 
 foreach (_script ${TRACE_PARTICLE_SIM_SCRIPTS})
     configure_file(

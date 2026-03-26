@@ -3,15 +3,19 @@
 # Temporary autorefresh off while establishing scene and trajectories
 
 /vis/drawVolume
-/vis/viewer/set/viewpointThetaPhi 90. 180. deg
-/vis/viewer/zoom 1.2
+/vis/viewer/set/viewpointVector 1 0.8 0.9
+/vis/viewer/zoom 20
 /vis/viewer/set/style wireframe
 /vis/scene/add/axes 0 0 0 10 cm
-/vis/scene/add/trajectories smooth
-/vis/modeling/trajectories/create/drawByCharge
+/vis/scene/add/trajectories smooth rich
+
+#/vis/modeling/trajectories/create/drawByParticleID
 /vis/scene/add/hits
-/vis/viewer/set/autoRefresh true
+/vis/scene/add/magneticField
 /vis/scene/endOfEventAction accumulate
 
 /vis/viewer/set/autoRefresh true
+
 /vis/verbose warnings
+
+/control/execute gps_gcr_particles.mac

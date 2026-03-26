@@ -1,0 +1,40 @@
+# Data sources for proton and He: SPENVIS (see spenvis file in data directory for input options used)
+# Data source for electron: Cosmic-Ray Data Base (CRDB, https://lpsc.in2p3.fr/crdb/#)
+
+/run/initialize
+
+/gps/source/add 0.84
+/gps/particle proton
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/radius .5 m
+/gps/ang/type cos
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_h.txt
+/gps/hist/inter Lin
+
+/gps/source/add 0.14
+/gps/particle alpha
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/radius .5 m
+/gps/ang/type cos
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_he.txt
+/gps/hist/inter Lin
+
+/gps/source/add 0.02
+/gps/particle e-
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/radius .5 m
+/gps/ang/type cos
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_electron.txt
+/gps/hist/inter Lin
+
+/run/printProgress 100
+/run/beamOn 1000
