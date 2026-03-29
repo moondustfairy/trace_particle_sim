@@ -12,7 +12,7 @@ public:
 	MyPrimaryGenerator();
 	~MyPrimaryGenerator() override;
 	
-	virtual void GeneratePrimaries(G4Event*) override;
+	void GeneratePrimaries(G4Event*) override;
 
 private:
 	G4GeneralParticleSource *fParticleGun;

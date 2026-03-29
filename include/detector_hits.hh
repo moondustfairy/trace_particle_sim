@@ -37,6 +37,8 @@ public:
         G4ThreeVector GetMomentum() const {return fMomentum; };
         G4ThreeVector GetPos() const { return fPos; };
 
+        void AddEdep(G4double edep);
+
 private:
         G4int fTrackID = -1;
         G4double fEnergy = 0.;
@@ -55,6 +57,10 @@ inline void *DetectorHits::operator new(size_t) {
 
 inline void DetectorHits::operator delete(void *hit) {
         DetectorHitAllocator->FreeSingle((DetectorHits*)hit);
+}
+
+inline void DetectorHits::AddEdep(G4double edep) {
+        fEnergy += edep;
 }
 
 #endif //TRACE_PARTICLE_SIM_TRACKERHITS_H

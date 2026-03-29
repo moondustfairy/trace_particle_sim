@@ -25,9 +25,9 @@ int main(int argc, char** argv){
 
 	G4RunManager *runManager = new G4RunManager();
 	runManager->SetUserInitialization(new MyDetectorConstruction());
-	//auto physics_list = new Shielding;
-	//runManager->SetUserInitialization(physics_list);
-	runManager->SetUserInitialization(new MyPhysicsList);
+	auto physics_list = new Shielding;
+	runManager->SetUserInitialization(physics_list);
+	//runManager->SetUserInitialization(new MyPhysicsList);
 	runManager->SetUserInitialization(new MyActionInitialization());
 	runManager->Initialize();
 	

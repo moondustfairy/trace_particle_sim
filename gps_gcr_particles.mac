@@ -3,6 +3,8 @@
 
 /run/initialize
 
+#/globalField/setValue 0.5e-5 0. 0. tesla
+
 /gps/source/add 0.84
 /gps/particle proton
 /gps/pos/type Surface
@@ -36,5 +38,4 @@
 /gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_electron.txt
 /gps/hist/inter Lin
 
-/run/printProgress 100
 /run/beamOn 1000

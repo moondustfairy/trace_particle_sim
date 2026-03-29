@@ -14,6 +14,7 @@ RunAction::RunAction() : G4UserRunAction() {
     G4cout << "Using " << analysisManager->GetType() << G4endl;
 
     analysisManager->SetVerboseLevel(1);
+    analysisManager->CreateH1("DepE","Deposited Energy in bone", 200,0., 500*CLHEP::MeV);
 }
 
 RunAction::~RunAction() {

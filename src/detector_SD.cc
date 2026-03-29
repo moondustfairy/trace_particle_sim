@@ -23,14 +23,16 @@ void DetectorSD::Initialize(G4HCofThisEvent *hitCollection) {
 }
 
 G4bool DetectorSD::ProcessHits(G4Step *step, G4TouchableHistory *history) {
+    auto edep = step->GetTotalEnergyDeposit();
     DetectorHits *newHit = new DetectorHits();
 
-    //G4ThreeVector preHitPosition = step->GetPreStepPoint()->GetMomentumDirection();
-    //G4ThreeVector postHitPosition = step->GetPostStepPoint()->GetMomentumDirection();
-
     newHit->SetTrackID(step->GetTrack()->GetTrackID());
-    newHit->SetEnergy(step->GetTotalEnergyDeposit());
+    newHit->SetEnergy(edep);
     newHit->SetPos(step->GetPostStepPoint()->GetPosition());
+
+    auto hit = (*fHitsCollection)[0];
+    auto hitTotal = (*fHitsCollection)[fHitsCollection->entries() - 1];
+    hit->AddEdep(edep);
 
     fHitsCollection->insert(newHit);
 
@@ -40,8 +42,9 @@ G4bool DetectorSD::ProcessHits(G4Step *step, G4TouchableHistory *history) {
 void DetectorSD::EndOfEvent(G4HCofThisEvent *hitCollection) {
     if (verboseLevel > 1) {
         std::size_t nofHits = fHitsCollection->entries();
-        G4cout << G4endl << "--------------->Hits Collection_ in this event there are " << nofHits << " hits in the tracker chambers: " << G4endl;
+        G4cout << G4endl << "--------------->Hits Collection_ in this event there are " << nofHits << " hits in the  " << G4endl;
         for (std::size_t i = 0; i < nofHits; i++)
             (*fHitsCollection)[i]->Print();
     }
+
 }

@@ -6,6 +6,7 @@
 #include "G4TransportationManager.hh"
 #include "G4FieldManager.hh"
 #include "G4UniformMagField.hh"
+#include "G4GlobalMagFieldMessenger.hh"
 #include "G4Color.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4Material.hh"
@@ -22,7 +23,6 @@ class MyDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
 	MyDetectorConstruction();
-
 	~MyDetectorConstruction() override;
 
 	G4VPhysicalVolume *Construct() override;
@@ -30,6 +30,8 @@ public:
 
 private:
 	G4LogicalVolume *fLogicDetectorTube = nullptr;
+	G4LogicalVolume *fLogicBrainCylinder = nullptr;
+	static G4ThreadLocal G4GlobalMagFieldMessenger* fMagFieldMessenger;
 };
 
 #endif
