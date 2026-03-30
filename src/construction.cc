@@ -60,11 +60,12 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 	G4SubtractionSolid	*traceShell = new G4SubtractionSolid("traceShell", traceOuterShell, traceInnerShell);
 
 	// Copper detector tube: diameter 12mm, length 20mm, thickness 0.5mm
-	G4Tubs *boneTube = new G4Tubs("detectorTube", .6*cm, .65*cm, 1.*cm, 0, CLHEP::twopi);
+	G4Tubs *boneTube = new G4Tubs("detectorTube", .55*cm, .6*cm, 1.*cm, 0, CLHEP::twopi);
+	G4Tubs *boneAndBrainCylinder = new G4Tubs("boneAndBrainCylinder", 0.*cm, .6*cm, 1.*cm, 0, CLHEP::twopi);
+	G4SubtractionSolid *brainCylinder = new G4SubtractionSolid("boneCylinder", boneAndBrainCylinder, boneTube);
 	G4RotationMatrix *tubeRotation = new G4RotationMatrix();
 	tubeRotation->rotateY(90.*degree);
-	G4Tubs *brainCylinder = new G4Tubs("brainCylinder", 0.*cm, .6*cm, 1.*cm, 0, CLHEP::twopi);
-	tubeRotation->rotateY(90.*degree);
+
 
 
 	G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
@@ -75,8 +76,9 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
 	G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
 	G4VPhysicalVolume *physTraceShell = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicTraceShell, "physTraceShell", logicWorld, false, 0, true);
-	G4VPhysicalVolume *physBoneTube = new G4PVPlacement(tubeRotation, G4ThreeVector(0., 0., 0.), logicBoneTube, "physDetectorTube", logicWorld, false, 0, true);
-	G4VPhysicalVolume *physBrainCylinder = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBrainCylinder, "physBrainCylinder", logicBoneTube, false, 0, true);
+	G4VPhysicalVolume *physTraceVacuum = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicTraceVacuum, "physTraceVacuum", logicTraceShell, false, 0, true);
+	G4VPhysicalVolume *physBoneTube = new G4PVPlacement(tubeRotation, G4ThreeVector(0., 0., 0.), logicBoneTube, "physDetectorTube", logicTraceVacuum, false, 0, true);
+	G4VPhysicalVolume *physBrainCylinder = new G4PVPlacement(tubeRotation, G4ThreeVector(0., 0., 0.), logicBrainCylinder, "physBrainCylinder", logicTraceVacuum, false, 0, true);
 
 	fLogicDetectorTube = logicBoneTube;
 	fLogicBrainCylinder = logicBrainCylinder;
@@ -96,6 +98,10 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 	logicBrainCylinderVisAtt->SetForceSolid(true);
 	logicBrainCylinder->SetVisAttributes(logicBrainCylinderVisAtt);
 
+	G4AutoDelete::Register(logicWorldVisAtt);
+	G4AutoDelete::Register(logicDetectorTubeVisAtt);
+	G4AutoDelete::Register(logicBrainCylinderVisAtt);
+	G4AutoDelete::Register(tubeRotation);
 	return physWorld;
 }
 

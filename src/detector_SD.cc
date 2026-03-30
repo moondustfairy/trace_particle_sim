@@ -23,19 +23,22 @@ void DetectorSD::Initialize(G4HCofThisEvent *hitCollection) {
 }
 
 G4bool DetectorSD::ProcessHits(G4Step *step, G4TouchableHistory *history) {
+    G4cout << "HIT DETECTED in " << SensitiveDetectorName << " at position "
+           << step->GetPostStepPoint()->GetPosition() << " with energy deposit "
+           << step->GetTotalEnergyDeposit() << G4endl;
+
     auto edep = step->GetTotalEnergyDeposit();
-    DetectorHits *newHit = new DetectorHits();
 
-    newHit->SetTrackID(step->GetTrack()->GetTrackID());
-    newHit->SetEnergy(edep);
-    newHit->SetPos(step->GetPostStepPoint()->GetPosition());
-
-    auto hit = (*fHitsCollection)[0];
-    auto hitTotal = (*fHitsCollection)[fHitsCollection->entries() - 1];
-    hit->AddEdep(edep);
-
-    fHitsCollection->insert(newHit);
-
+    if (fHitsCollection->entries() == 0) {
+        DetectorHits *newHit = new DetectorHits();
+        newHit->SetTrackID(step->GetTrack()->GetTrackID());
+        newHit->SetEnergy(edep);
+        newHit->SetPos(step->GetPostStepPoint()->GetPosition());
+        fHitsCollection->insert(newHit);
+    } else {
+        auto hit = (*fHitsCollection)[0];
+        hit->AddEdep(edep);
+    }
     return true;
 }
 

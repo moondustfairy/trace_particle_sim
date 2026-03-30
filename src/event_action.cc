@@ -29,6 +29,7 @@ void EventAction::BeginOfEventAction(const G4Event *anEvent) {
 
 void EventAction::EndOfEventAction(const G4Event *anEvent) {
 
+
     if (fCylinderHCID == -1) {
         fTubeHCID = G4SDManager::GetSDMpointer()->GetCollectionID("TubeHitsCollection");
         fCylinderHCID = G4SDManager::GetSDMpointer()->GetCollectionID("CylinderHitsCollection");
@@ -36,6 +37,16 @@ void EventAction::EndOfEventAction(const G4Event *anEvent) {
 
     auto tubeHC = GetHitsCollection(fTubeHCID, anEvent);
     auto cylinderHC = GetHitsCollection(fCylinderHCID, anEvent);
+
+    if (tubeHC->entries() == 0 || cylinderHC->entries() == 0) {
+        G4ExceptionDescription ex;
+        ex << "Warning: One or both hit collections are empty. Tube hits: " << tubeHC->entries() << ", Cylinder hits: " << cylinderHC->entries() << G4endl;
+        G4Exception("EventAction::EndOfEventAction()", "NewCode0002", JustWarning, ex);
+        return;
+    }
+
+    G4cout << "Event " << anEvent->GetEventID() << ": Tube hits = " << tubeHC->entries()
+           << ", Cylinder hits = " << cylinderHC->entries() << G4endl;
 
     auto tubeHit = (*tubeHC)[tubeHC->entries() - 1];
     auto cylinderHit = (*cylinderHC)[cylinderHC->entries() - 1];
@@ -55,7 +66,4 @@ void EventAction::EndOfEventAction(const G4Event *anEvent) {
     analysisManager->FillH1(1, cylinderHit->GetEnergy());
     analysisManager->FillH1(2, tubeHit->GetMomentum().mag());
     analysisManager->FillH1(3, cylinderHit->GetMomentum().mag());
-
-
-
 }

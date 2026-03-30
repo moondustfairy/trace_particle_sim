@@ -15,7 +15,7 @@ class RunAction : public G4UserRunAction
 {
     public:
         RunAction();
-        virtual ~RunAction() override;
+        ~RunAction() override;
 
         virtual void BeginRunAction(const G4Run*);
         virtual void EndRunAction(const G4Run*);

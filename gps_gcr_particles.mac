@@ -10,7 +10,8 @@
 /gps/pos/type Surface
 /gps/pos/shape Sphere
 /gps/pos/radius .5 m
-/gps/ang/type cos
+/gps/ang/type focused
+/gps/ang/focuspoint 0 0 0 m
 /gps/ene/type Arb
 /gps/hist/type arb
 /gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_h.txt
@@ -21,7 +22,8 @@
 /gps/pos/type Surface
 /gps/pos/shape Sphere
 /gps/pos/radius .5 m
-/gps/ang/type cos
+/gps/ang/type focused
+/gps/ang/focuspoint 0 0 0 m
 /gps/ene/type Arb
 /gps/hist/type arb
 /gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_he.txt
@@ -32,10 +34,11 @@
 /gps/pos/type Surface
 /gps/pos/shape Sphere
 /gps/pos/radius .5 m
-/gps/ang/type cos
+/gps/ang/type focused
+/gps/ang/focuspoint 0 0 0 m
 /gps/ene/type Arb
 /gps/hist/type arb
 /gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_electron.txt
 /gps/hist/inter Lin
 
-/run/beamOn 1000
+/run/beamOn 50

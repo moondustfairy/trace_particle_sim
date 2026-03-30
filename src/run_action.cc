@@ -7,7 +7,7 @@
 #include "G4RunManager.hh"
 
 RunAction::RunAction() : G4UserRunAction() {
-    G4RunManager::GetRunManager()->SetPrintProgress(1);
+    G4RunManager::GetRunManager()->SetPrintProgress(100);
 
     // create analysis manager
     auto analysisManager = G4AnalysisManager::Instance();
@@ -18,7 +18,7 @@ RunAction::RunAction() : G4UserRunAction() {
 }
 
 RunAction::~RunAction() {
-    delete G4AnalysisManager::Instance();
+    //delete G4AnalysisManager::Instance();
 }
 
 void RunAction::BeginRunAction(const G4Run *) {
