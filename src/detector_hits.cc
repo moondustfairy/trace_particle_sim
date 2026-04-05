@@ -2,7 +2,7 @@
 // Created by sarah on 24.03.26.
 //
 
-#include "../include/detector_hits.hh"
+#include "../include/detector_hit.hh"
 
 #include "G4Circle.hh"
 #include "G4Colour.hh"
@@ -12,13 +12,14 @@
 
 #include <iomanip>
 
-G4ThreadLocal G4Allocator<DetectorHits>* DetectorHitAllocator = nullptr;
+G4ThreadLocal G4Allocator<DetectorHit>* DetectorHitAllocator = nullptr;
 
-G4bool DetectorHits::operator==(const DetectorHits &right) const {
+G4bool DetectorHit::operator==(const DetectorHit &right) const {
     return (this==&right) ? true : false;
 }
 
-void DetectorHits::Draw() {
+void DetectorHit::Draw() {
+    /*
     G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
     if (pVVisManager) {
         G4Circle circle(fPos);
@@ -30,10 +31,12 @@ void DetectorHits::Draw() {
         circle.SetVisAttributes(attribs);
 
         pVVisManager->Draw(circle);
+
     }
+    */
 }
 
-void DetectorHits::Print() {
+void DetectorHit::Print() {
     G4cout << " trackID: " << fTrackID << "Edep: " << std::setw(7)
     << G4BestUnit(fEnergy, "Energy") << " Position: " << std::setw(7)
     << G4BestUnit(fPos, "Length") << G4endl;

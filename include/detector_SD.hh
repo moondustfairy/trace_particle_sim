@@ -5,7 +5,7 @@
 #ifndef TRACE_PARTICLE_SIM_TRACKERSD_H
 #define TRACE_PARTICLE_SIM_TRACKERSD_H
 
-#include "detector_hits.hh"
+#include "detector_hit.hh"
 
 #include "G4VSensitiveDetector.hh"
 #include <vector>
@@ -18,12 +18,14 @@ class DetectorSD : public G4VSensitiveDetector {
         DetectorSD(const G4String& name, const G4String& hitsCollectionName);
         ~DetectorSD() override = default;
 
-        void Initialize(G4HCofThisEvent *hitCollection) override;
+        void Initialize(G4HCofThisEvent *eventHitCollection) override;
         G4bool ProcessHits(G4Step *step, G4TouchableHistory *history) override;
-        void EndOfEvent(G4HCofThisEvent *hitCollection) override;
+        void EndOfEvent(G4HCofThisEvent *eventHitCollection) override;
 
     private:
-        DetectorHitsCollection *fHitsCollection = nullptr;
+        G4double fTotalEnergyDeposit = 0.;
+        DetectorHitCollection *fHitsCollection = nullptr;
+        G4int fCollectionID;
 };
 
 

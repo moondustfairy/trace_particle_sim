@@ -12,14 +12,14 @@
 #include "G4ThreeVector.hh"
 #include "G4VHit.hh"
 
-class DetectorHits : public G4VHit {
+class DetectorHit : public G4VHit {
 public:
-        DetectorHits() = default;
-        DetectorHits(const DetectorHits&) = default;
-        ~DetectorHits() override = default;
+        DetectorHit() = default;
+        DetectorHit(const DetectorHit&) = default;
+        ~DetectorHit() override = default;
 
-        DetectorHits& operator=(const DetectorHits&) = default;
-        G4bool operator==(const DetectorHits&) const;
+        DetectorHit& operator=(const DetectorHit&) = default;
+        G4bool operator==(const DetectorHit&) const;
 
         inline void *operator new(size_t);
         inline void operator delete(void*);
@@ -29,38 +29,35 @@ public:
 
         void SetTrackID(G4int track) { fTrackID = track; };
         void SetEnergy(G4double e) { fEnergy = e; };
+        void SetStepLength(G4double l) { fStepLength = l; };
         void SetMomentum(G4ThreeVector mom) { fMomentum = mom; };
         void SetPos(G4ThreeVector xyz) { fPos = xyz; };
 
         G4int GetTrackID() const { return fTrackID; };
         G4double GetEnergy() const { return fEnergy; };
+        G4double GetStepLength() const { return fStepLength; };
         G4ThreeVector GetMomentum() const {return fMomentum; };
         G4ThreeVector GetPos() const { return fPos; };
-
-        void AddEdep(G4double edep);
 
 private:
         G4int fTrackID = -1;
         G4double fEnergy = 0.;
+        G4double fStepLength = 0.;
         G4ThreeVector fMomentum;
         G4ThreeVector fPos;
 };
 
-using DetectorHitsCollection = G4THitsCollection<DetectorHits>;
+using DetectorHitCollection = G4THitsCollection<DetectorHit>;
 
-extern G4ThreadLocal G4Allocator<DetectorHits>* DetectorHitAllocator;
+extern G4ThreadLocal G4Allocator<DetectorHit>* DetectorHitAllocator;
 
-inline void *DetectorHits::operator new(size_t) {
-        if (!DetectorHitAllocator) DetectorHitAllocator = new G4Allocator<DetectorHits>;
+inline void *DetectorHit::operator new(size_t) {
+        if (!DetectorHitAllocator) DetectorHitAllocator = new G4Allocator<DetectorHit>;
         return (void*)DetectorHitAllocator->MallocSingle();
 }
 
-inline void DetectorHits::operator delete(void *hit) {
-        DetectorHitAllocator->FreeSingle((DetectorHits*)hit);
-}
-
-inline void DetectorHits::AddEdep(G4double edep) {
-        fEnergy += edep;
+inline void DetectorHit::operator delete(void *hit) {
+        DetectorHitAllocator->FreeSingle((DetectorHit*)hit);
 }
 
 #endif //TRACE_PARTICLE_SIM_TRACKERHITS_H

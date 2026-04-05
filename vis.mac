@@ -1,7 +1,5 @@
 /vis/open OGL
 
-# Temporary autorefresh off while establishing scene and trajectories
-
 /vis/drawVolume
 /vis/viewer/set/viewpointVector 1 0.8 0.9
 /vis/viewer/zoom 20
@@ -9,13 +7,44 @@
 /vis/scene/add/axes 0 0 0 10 cm
 /vis/scene/add/trajectories smooth rich
 
-#/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/create/drawByParticleID
 /vis/scene/add/hits
-/vis/scene/add/magneticField
-/vis/scene/endOfEventAction accumulate
+#/vis/scene/add/magneticField
+/vis/scene/endOfEventAction accumulate 10
 
 /vis/viewer/set/autoRefresh true
 
-/vis/verbose warnings
+/vis/verbose 0
+/tracking/verbose 1
+/process/verbose 0
 
+/vis/modeling/trajectories/drawByParticleID-0/set e- blue
+/vis/modeling/trajectories/drawByParticleID-0/set proton red
+/vis/modeling/trajectories/drawByParticleID-0/set alpha yellow
+/vis/modeling/trajectories/drawByParticleID-0/set geantino red
+
+/analysis/setFileName gps_gcr_particles.root
+
+#/control/execute debug.mac
 /control/execute gps_gcr_particles.mac
+
+# viewer:
+#/vis/sceneHandler/create TSG scene-handler-plotter
+#/vis/viewer/create scene-handler-plotter viewer-plotter 600x600-0+0
+#/vis/viewer/set/background 1 1 1
+#/vis/viewer/zoomTo 1
+#/vis/viewer/set/viewpointVector 0 0 1
+# scene:
+#/vis/plotter/create plotter-0
+#/vis/scene/create scene-plotter
+#/vis/scene/add/plotter plotter-0
+#/vis/sceneHandler/attach scene-plotter
+# create a 3x3 plotter regions:
+#/vis/plotter/setLayout plotter-0 3 3
+# attach histograms to regions (examples/basic/B5 specific):
+#/vis/plotter/add/h1 0 plotter-0 0
+#/vis/plotter/add/h1 1 plotter-0 1
+#/vis/plotter/add/h1 2 plotter-0 2
+#/vis/plotter/add/h1 3 plotter-0 3
+#/vis/plotter/add/h1 4 plotter-0 4
+

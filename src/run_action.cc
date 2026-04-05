@@ -4,35 +4,80 @@
 
 #include "run_action.hh"
 
+#include <G4HCtable.hh>
+#include <G4UnitsTable.hh>
+
+#include "detector_hit.hh"
 #include "G4RunManager.hh"
+#include "histo_manager.hh"
+#include "G4AccumulableManager.hh"
 
-RunAction::RunAction() : G4UserRunAction() {
-    G4RunManager::GetRunManager()->SetPrintProgress(100);
+#include "analysis.hh"
 
-    // create analysis manager
-    auto analysisManager = G4AnalysisManager::Instance();
-    G4cout << "Using " << analysisManager->GetType() << G4endl;
+RunAction::RunAction(HistoManager *histo) : fHistoManager(histo) {
+    G4RunManager::GetRunManager()->SetPrintProgress(10);
 
-    analysisManager->SetVerboseLevel(1);
-    analysisManager->CreateH1("DepE","Deposited Energy in bone", 200,0., 500*CLHEP::MeV);
+
+    // Register accumulable to the accumulable manager
+    G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+    accumulableManager->Register(fSumETube);
+    accumulableManager->Register(fSumECyl);
+    accumulableManager->Register(fSumLTube);
+    accumulableManager->Register(fSumLCyl);
+
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+    analysisManager->CreateH1("DepE_Bone","Deposited Energy in bone", 100,0., 50*CLHEP::MeV);
+    analysisManager->CreateH1("DepE_Brain","Deposited Energy in brain", 100,0., 50*CLHEP::MeV);
+    analysisManager->CreateH1("Mom_Bone","Momentum of particles in bone", 100,0., 500*CLHEP::MeV);
+    analysisManager->CreateH1("Mom_Brain","Momentum of particles in brain", 100,0., 500*CLHEP::MeV);
+    analysisManager->CreateH1("Energy_particles", "Energy of all particles", 100,0., 500*CLHEP::MeV);
+
 }
 
 RunAction::~RunAction() {
-    //delete G4AnalysisManager::Instance();
 }
 
-void RunAction::BeginRunAction(const G4Run *) {
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    if (analysisManager->IsActive()) {
-        G4String fileName = "data";
-        analysisManager->OpenFile(fileName);
+void RunAction::BeginOfRunAction(const G4Run *run) {
+    G4cout << "### Run " << run->GetRunID() << " start." << G4endl;
+
+    // reset accumulables to their initial values
+    G4AccumulableManager::Instance()->Reset();
+
+    // histograms
+    //
+    fHistoManager->Book();
+}
+
+void RunAction::FillPerEvent(G4double ETube, G4double ECyl, G4double LTube, G4double LCyl) {
+    // accumulate statistic
+    //
+   fSumETube += ETube;
+   fSumECyl += ECyl;
+   fSumLTube += LTube;
+   fSumLCyl += LCyl;
+}
+
+void RunAction::EndOfRunAction(const G4Run *run) {
+
+    G4AccumulableManager::Instance()->Merge();
+
+    G4int nofEvents = run->GetNumberOfEvent();
+    if (nofEvents == 0) {
+        // close open files
+        fHistoManager->Save();
+        return;
     }
-}
-
-void RunAction::EndRunAction(const G4Run *) {
+    /*if (run->GetHCtable()->GetHCname(0) == "TubeHitsCollection")
+        G4cout << "Number of hits in tube: " << run->GetHCtable()->GetCollectionID("TubeHitsCollection") << G4endl; {
+    }
+    if (run->GetHCtable()->GetHCname(1) == "CylinderHitsCollection")
+        G4cout << "Number of hits in cylinder: " << run->GetHCtable()->GetCollectionID("CylinderHitsCollection") << G4endl; {
+        }
+        */
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     if (analysisManager->IsActive()) {
         analysisManager->Write();
         analysisManager->CloseFile();
     }
+    fHistoManager->Save();
 }

@@ -1,0 +1,15 @@
+# Debug macro for Geant4 simulation
+
+/run/initialize
+
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+
+/gps/particle proton
+/gps/pos/type Point
+/gps/pos/centre 1. 2. 1. cm
+/gps/energy 200. MeV
+/gps/ang/type focused
+/gps/ang/focuspoint 0 0 0 m
+
+/run/beamOn 50

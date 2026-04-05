@@ -1,7 +1,10 @@
+# This macro sets up a GPS source to simulate Galactic Cosmic Ray (GCR) particles, specifically  84% protons, 14% helium nuclei (alpha particles),
+# and 2% electrons.
+# The particles are emitted from a spherical surface with a specified radius, and their trajectories are focused towards the center of the sphere.
+# The macro also includes commented-out lines for setting a magnetic field, which can be enabled if needed for the simulation.
+
 # Data sources for proton and He: SPENVIS (see spenvis file in data directory for input options used)
 # Data source for electron: Cosmic-Ray Data Base (CRDB, https://lpsc.in2p3.fr/crdb/#)
-
-/run/initialize
 
 #/globalField/setValue 0.5e-5 0. 0. tesla
 
@@ -9,36 +12,42 @@
 /gps/particle proton
 /gps/pos/type Surface
 /gps/pos/shape Sphere
-/gps/pos/radius .5 m
+/gps/pos/radius .2 m
 /gps/ang/type focused
 /gps/ang/focuspoint 0 0 0 m
-/gps/ene/type Arb
-/gps/hist/type arb
-/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_h.txt
-/gps/hist/inter Lin
+/gps/ene/mono 1. GeV
+#/gps/ene/type Arb
+#/gps/hist/type arb
+#/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_h.txt
+#/gps/hist/eunit MeV
+#/gps/hist/inter Lin
 
 /gps/source/add 0.14
 /gps/particle alpha
 /gps/pos/type Surface
 /gps/pos/shape Sphere
-/gps/pos/radius .5 m
+/gps/pos/radius .2 m
 /gps/ang/type focused
 /gps/ang/focuspoint 0 0 0 m
-/gps/ene/type Arb
-/gps/hist/type arb
-/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_he.txt
-/gps/hist/inter Lin
+/gps/ene/mono 1. GeV
+#/gps/ene/type Arb
+#/gps/hist/type arb
+#/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_he.txt
+#/gps/hist/eunit MeV
+#/gps/hist/inter Lin
 
 /gps/source/add 0.02
 /gps/particle e-
 /gps/pos/type Surface
 /gps/pos/shape Sphere
-/gps/pos/radius .5 m
+/gps/pos/radius .2 m
 /gps/ang/type focused
 /gps/ang/focuspoint 0 0 0 m
-/gps/ene/type Arb
-/gps/hist/type arb
-/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_electron.txt
-/gps/hist/inter Lin
+/gps/ene/mono 100 MeV
+#/gps/ene/type Arb
+#/gps/hist/type arb
+#/gps/hist/file /home/sarah/Geant4Projects/trace-particle-sim/diff_flux_electron.txt
+#/gps/hist/eunit MeV
+#/gps/hist/inter Lin
 
-/run/beamOn 50
+/run/beamOn 20

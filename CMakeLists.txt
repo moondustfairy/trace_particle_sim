@@ -13,19 +13,29 @@ endif ()
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+include_directories(${PROJECT_SOURCE_DIR}/include
+        ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
 add_executable(sim sim.cc ${sources} ${headers}
         src/construction.cc
+
         src/run_action.cc
         include/run_action.hh
+
         src/detector_SD.cc
         include/detector_SD.hh
+
         src/detector_hits.cc
-        include/detector_hits.hh
+        include/detector_hit.hh
+
         src/event_action.cc
-        include/event_action.hh)
+        include/event_action.hh
+        include/analysis.hh
+        src/histo_manager.cc
+        include/histo_manager.hh
+        )
 
 target_link_libraries(sim ${Geant4_LIBRARIES})
 
