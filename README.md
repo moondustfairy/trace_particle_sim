@@ -1,5 +1,9 @@
 A GEANT4 application to simulate the interaction of galactic cosmic rays with a 2U CubeSat in low earth orbit, specifically TRACE by TUDSaT e.V. [TUDSaT](https://tudsat.space/)
 
+
+![Screenshot of detector geometry visualization](detector_construction.png)
+
+
 # Preliminary Satellite Trajectory
 The preliminary satellite trajectory is defined as a circular, sun-synchronous orbit at an altitude of 520 km with an inclination of 97.48°, LTAN of 6:00 CEST and mission duration of 1 year from 2027-01-01 to 2028-01-01.
 
@@ -44,6 +48,8 @@ Batch mode (no visualization):
 
 # ROOT - Data Analysis
 A ROOT macro file (root_analysis.cc) is provided to analyze the output ntuples from the simulation.
+
+![Histograms of energy deposition in the tube and tube filling for protons, He-4 and electrons respectivelly](particle_specific_energy_deposits.pdf)
 
 To run: 
 ```bash
