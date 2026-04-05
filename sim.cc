@@ -6,8 +6,7 @@
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 #include "G4SteppingVerbose.hh"
-#include "Shielding.hh"
-
+#include "QBBC.hh"
 #include "construction.hh"
 #include "physics.hh"
 #include "action.hh"
@@ -25,7 +24,7 @@ int main(int argc, char** argv){
 
 	G4RunManager *runManager = new G4RunManager();
 	runManager->SetUserInitialization(new MyDetectorConstruction());
-	auto physics_list = new Shielding;
+	auto physics_list = new QBBC;
 	runManager->SetUserInitialization(physics_list);
 	//runManager->SetUserInitialization(new MyPhysicsList);
 	runManager->SetUserInitialization(new MyActionInitialization());
