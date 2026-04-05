@@ -18,7 +18,7 @@ public:
     void FillHisto(G4int id, G4double e, G4double weight = 1.0);
     void Normalize(G4int id, G4double fac);
 
-    void FillNtuple(G4double EnergyTube, G4double EnergyCyl, G4double TrackLTube, G4double TrackLCyl);
+    void FillNtuple(G4int eventID, G4int particle_index, G4double EnergyTube, G4double EnergyCyl, G4double TrackLTube, G4double TrackLCyl);
 
     void PrintStatistic();
 

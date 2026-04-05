@@ -53,9 +53,9 @@ void HistoManager::Book()
     // analysisManager->SetFirstHistoId(1);
 
     // id = 0
-    analysisManager->CreateH1("ETube", "Edep in tube (MeV)", 100, 0., 800 * MeV);
+    analysisManager->CreateH1("ETube", "Edep in tube (MeV)", 100, 0., 200 * MeV);
     // id = 1
-    analysisManager->CreateH1("ECylinder", "Edep in cylinder (MeV)", 100, 0., 100 * MeV);
+    analysisManager->CreateH1("ECylinder", "Edep in cylinder (MeV)", 100, 0., 200 * MeV);
     // id = 2
     analysisManager->CreateH1("LTube", "trackL in tube (mm)", 100, 0., 1 * m);
     // id = 3
@@ -69,16 +69,13 @@ void HistoManager::Book()
     // analysisManager->SetFirstMtupleId(1);
 
     // Create 1st ntuple (id = 0)
-    analysisManager->CreateNtuple("Ntuple1", "Edep");
-    analysisManager->CreateNtupleDColumn("ETube");  // column Id = 0
-    analysisManager->CreateNtupleDColumn("ECyliner");  // column Id = 1
-    analysisManager->FinishNtuple();
-
-    // Create 2nd ntuple (id = 1)
-    //
-    analysisManager->CreateNtuple("Ntuple2", "TrackL");
-    analysisManager->CreateNtupleDColumn("LTube");  // column Id = 0
-    analysisManager->CreateNtupleDColumn("LCylinder");  // column Id = 1
+    analysisManager->CreateNtuple("Ntuple1", "Edep and trackL");
+    analysisManager->CreateNtupleIColumn("EventID");  // column Id = 0
+    analysisManager->CreateNtupleIColumn("PDGcode");  // column Id = 1
+    analysisManager->CreateNtupleDColumn("ETube");  // column Id = 2
+    analysisManager->CreateNtupleDColumn("ECylinder");  // column Id = 3
+    analysisManager->CreateNtupleDColumn("LTube");  // column Id = 4
+    analysisManager->CreateNtupleDColumn("LCylinder");  // column Id = 5
     analysisManager->FinishNtuple();
 
     fFactoryOn = true;
@@ -124,18 +121,17 @@ void HistoManager::Normalize(G4int ih, G4double fac)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void HistoManager::FillNtuple(G4double eTube, G4double eCylinder, G4double trackTube,
+void HistoManager::FillNtuple(G4int eventID, G4int particle_index, G4double eTube, G4double eCylinder, G4double trackTube,
                               G4double trackCylinder)
 {
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  // Fill 1st ntuple ( id = 0)
-  analysisManager->FillNtupleDColumn(0, 0, eTube);
-  analysisManager->FillNtupleDColumn(0, 1, eCylinder);
+  analysisManager->FillNtupleIColumn(0, 0, eventID);
+  analysisManager->FillNtupleIColumn(0, 1, particle_index);
+  analysisManager->FillNtupleDColumn(0, 2, eTube);
+  analysisManager->FillNtupleDColumn(0, 3, eCylinder);
+  analysisManager->FillNtupleDColumn(0, 4, trackTube);
+  analysisManager->FillNtupleDColumn(0, 5, trackCylinder);
   analysisManager->AddNtupleRow(0);
-  // Fill 2nd ntuple ( id = 1)
-  analysisManager->FillNtupleDColumn(1, 0, trackTube);
-  analysisManager->FillNtupleDColumn(1, 1, trackCylinder);
-  analysisManager->AddNtupleRow(1);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

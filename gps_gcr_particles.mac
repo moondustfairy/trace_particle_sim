@@ -50,4 +50,4 @@
 #/gps/hist/eunit MeV
 #/gps/hist/inter Lin
 
-/run/beamOn 20
+/run/beamOn 10000

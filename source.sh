@@ -1,1 +1,0 @@
-source /home/sarah/geant4/geant4-v11.4.0-install/bin/geant4.sh

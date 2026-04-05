@@ -23,9 +23,9 @@
 /vis/modeling/trajectories/drawByParticleID-0/set alpha yellow
 /vis/modeling/trajectories/drawByParticleID-0/set geantino red
 
-/analysis/setFileName gps_gcr_particles.root
-
+# File for testing and debugging (proton, mono-energetic, no field):
 #/control/execute debug.mac
+
 /control/execute gps_gcr_particles.mac
 
 # viewer:

@@ -27,7 +27,7 @@ DetectorHitCollection *EventAction::GetHitsCollection(G4int hcID, const G4Event 
 }
 
 void EventAction::BeginOfEventAction(const G4Event *anEvent) {
-    G4cout << "EventAction::BeginOfEventAction(event) : Event: " << anEvent->GetEventID() << "PDG code: " <<
+    G4cout << "EventAction::BeginOfEventAction(event) : Event: " << anEvent->GetEventID() << " PDG code: " <<
         anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode()<<  G4endl;
 }
 
@@ -77,5 +77,5 @@ void EventAction::EndOfEventAction(const G4Event *anEvent) {
     fHistoManager->FillHisto(3, cylinderHit->GetStepLength());
     fHistoManager->FillHisto(4, anEvent->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy());
 
-    fHistoManager->FillNtuple(tubeHit->GetEnergy(), cylinderHit->GetEnergy(), tubeHit->GetStepLength(), cylinderHit->GetStepLength());
+    fHistoManager->FillNtuple(anEvent->GetEventID(), anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode(), tubeHit->GetEnergy(), cylinderHit->GetEnergy(), tubeHit->GetStepLength(), cylinderHit->GetStepLength());
 }

@@ -25,13 +25,6 @@ RunAction::RunAction(HistoManager *histo) : fHistoManager(histo) {
     accumulableManager->Register(fSumLTube);
     accumulableManager->Register(fSumLCyl);
 
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    analysisManager->CreateH1("DepE_Bone","Deposited Energy in bone", 100,0., 50*CLHEP::MeV);
-    analysisManager->CreateH1("DepE_Brain","Deposited Energy in brain", 100,0., 50*CLHEP::MeV);
-    analysisManager->CreateH1("Mom_Bone","Momentum of particles in bone", 100,0., 500*CLHEP::MeV);
-    analysisManager->CreateH1("Mom_Brain","Momentum of particles in brain", 100,0., 500*CLHEP::MeV);
-    analysisManager->CreateH1("Energy_particles", "Energy of all particles", 100,0., 500*CLHEP::MeV);
-
 }
 
 RunAction::~RunAction() {
@@ -67,13 +60,13 @@ void RunAction::EndOfRunAction(const G4Run *run) {
         fHistoManager->Save();
         return;
     }
-    /*if (run->GetHCtable()->GetHCname(0) == "TubeHitsCollection")
+    if (run->GetHCtable()->GetHCname(0) == "TubeHitsCollection")
         G4cout << "Number of hits in tube: " << run->GetHCtable()->GetCollectionID("TubeHitsCollection") << G4endl; {
     }
     if (run->GetHCtable()->GetHCname(1) == "CylinderHitsCollection")
         G4cout << "Number of hits in cylinder: " << run->GetHCtable()->GetCollectionID("CylinderHitsCollection") << G4endl; {
         }
-        */
+
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     if (analysisManager->IsActive()) {
         analysisManager->Write();
